@@ -22,6 +22,6 @@ $(BIN): $(OBJS)
 #	$(STRIP) frame_app
 	
 clean:
-	rm -rf *.o
+	rm -rf *.o *~
 	rm -rf $(BIN)
 	rm -rf *.o *.bak *.c.bak *.txt

@@ -93,7 +93,7 @@ int main (int argc, char *argv[])
         value = ev[0].value;
  
       //if (value != ' ' && ev[1].value == 1 && ev[1].type == 1){ // Only read the key press event
-    #if 1
+    #if 0
      if (value != ' '){
       printf ("Code0[%d]\n", (ev[0].code));
       printf ("Code1[%d]\n", (ev[1].code));
@@ -112,16 +112,18 @@ int main (int argc, char *argv[])
 	//if (ev[0].value && ev[1].value)
 	if (ev[0].value || ev[1].value)
 	{
-		if ((ev[0].value && ev[1].value) && new_flag)
+		if ((ev[0].value && ev[1].value))
 		{
-		if (old_flag)
+	//	if (old_flag)
+		if (ev[2].value)
 		{
-			old_flag = 0;
+	//		old_flag = 0;
+			new_flag = 1;
 			old_crd.x_val = ev[0].value;
 			old_crd.y_val = ev[1].value;
 			printf("x=%d, y=%d\n", old_crd.x_val, old_crd.y_val);
 		}
-		else 
+		else if (new_flag)
 		{
 		if (ev[0].value - old_crd.x_val < -600)
 		{
@@ -139,11 +141,11 @@ int main (int argc, char *argv[])
 		}
 		}
 	}
-	else
+	if (new_flag == 0)
 	{
 		printf("in else\n");
 		old_flag = 1;
-		new_flag = 1;
+	//	new_flag = 1;
 		old_crd.x_val = 0;
 		old_crd.y_val = 0;
 		usleep(100000);

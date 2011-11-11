@@ -27,4 +27,6 @@
 
 extern int Gpio_Beep_Ctl(unsigned int on_off, unsigned int lednum);
 
+extern int Gpio_Beep_Get_Sts(unsigned int lednum);
+
 #endif /* _GPIO_SYS_API_H_ */

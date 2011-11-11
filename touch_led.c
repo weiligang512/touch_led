@@ -63,7 +63,6 @@ int main (int argc, char *argv[])
   char name[256] = "Unknown";
   char *device = NULL;
   struct crdt old_crd;
-  int old_flag = 1, new_flag = 1;
  
   //Setup check
   if (argv[1] == NULL){
@@ -98,57 +97,33 @@ int main (int argc, char *argv[])
       printf ("Code0[%d]\n", (ev[0].code));
       printf ("Code1[%d]\n", (ev[1].code));
       printf ("Code2[%d]\n", (ev[2].code));
-     // printf ("Code3[%d]\n", (ev[3].code));
-     // printf ("Code4[%d]\n", (ev[4].code));
-    //  printf ("Code5[%d]\n", (ev[5].code));
       printf ("Value0[%d]\n", (ev[0].value));
       printf ("Value1[%d]\n", (ev[1].value));
       printf ("Value2[%d]\n", (ev[2].value));
-     // printf ("Value3[%d]\n", (ev[3].value));
-    //  printf ("Value4[%d]\n", (ev[4].value));
-     // printf ("Value5[%d]\n", (ev[5].value));
       }
 #endif
-	//if (ev[0].value && ev[1].value)
-	if (ev[0].value || ev[1].value)
+	if ((ev[0].value && ev[1].value))
 	{
-		if ((ev[0].value && ev[1].value))
-		{
-	//	if (old_flag)
 		if (ev[2].value)
 		{
-	//		old_flag = 0;
-			new_flag = 1;
 			old_crd.x_val = ev[0].value;
 			old_crd.y_val = ev[1].value;
 			printf("x=%d, y=%d\n", old_crd.x_val, old_crd.y_val);
 		}
-		else if (new_flag)
+		else
 		{
-		if (ev[0].value - old_crd.x_val < -600)
-		{
-			new_flag = 0;
-			printf("led on...\n");
-			Gpio_Beep_Ctl(1, 1);
-		}
+			if (ev[0].value - old_crd.x_val < -600)
+			{
+				printf("led on...\n");
+				Gpio_Beep_Ctl(1, 1);
+			}
 
-		if (ev[0].value - old_crd.x_val > 600)
-		{
-			new_flag = 0;
-			printf("led off...\n");
-			Gpio_Beep_Ctl(2, 1);
+			if (ev[0].value - old_crd.x_val > 600)
+			{
+				printf("led off...\n");
+				Gpio_Beep_Ctl(2, 1);
+			}
 		}
-		}
-		}
-	}
-	if (new_flag == 0)
-	{
-		printf("in else\n");
-		old_flag = 1;
-	//	new_flag = 1;
-		old_crd.x_val = 0;
-		old_crd.y_val = 0;
-		usleep(100000);
 	}
 
      usleep(20000);

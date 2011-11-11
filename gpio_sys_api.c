@@ -70,6 +70,7 @@ int Gpio_Beep_Get_Sts(unsigned int lednum)
 {
 	unsigned long data_buf[2] = {0};
         unsigned long cmd_tem;
+	int stat = -1;
 
         cmd_tem = lednum << 28;
 	
@@ -86,20 +87,24 @@ int Gpio_Beep_Get_Sts(unsigned int lednum)
 		case GPIO_LED_NUM1:
 			if((data_buf[0]&(0x1<<13)) == 0x0)
 			{
+				stat = 1;
 			  	printf("The Beep is Open\n");
 			}
 			else
 			{
+				stat = 0;
 				printf("The Beep is Close\n");						     }
 		 break;
 
 		case GPIO_LED_NUM2:
 			if((data_buf[0]&(0x1<<6)) == 0x0)
 			{
+				stat = 1;
 			  	printf("The Beep is Open\n");
 			}
 			else
 			{
+				stat = 0;
 				printf("The Beep is Close\n");						     }
 		 break;
 
@@ -108,6 +113,6 @@ int Gpio_Beep_Get_Sts(unsigned int lednum)
 	}
 	close_gpio();
 	
-	return (data_buf[0]);	
+	return (stat);	
 }
 
